@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Open Banking Payments API
+  version: 1.0.0
+  description: API for initiating and tracking payments.
+
+servers:
+  - url: https://api.openbank.com/v1
+
+paths:
+  /payments:
+    post:
+      summary: Initiate payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+      responses:
+        '201':
+          description: Payment initiated successfully
+
+  /payments/{paymentId}:
+    get:
+      summary: Get payment status
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatus'
+
+components:
+  schemas:
+    PaymentRequest:
+      type: object
+      properties:
+        fromAccount:
+          type: string
+        toAccount:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+
+    PaymentStatus:
+      type: object
+      properties:
+        paymentId:
+          type: string
+        status:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
