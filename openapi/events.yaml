@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Event Notification API
+  version: 1.0.0
+  description: Event publishing and subscription API.
+
+servers:
+  - url: https://api.openbank.com/v1
+
+paths:
+  /events:
+    get:
+      summary: Retrieve published events
+      responses:
+        '200':
+          description: Event list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    post:
+      summary: Publish event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Event published
+
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: string
+        eventType:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        source:
+          type: string
+        payload:
+          type: object
