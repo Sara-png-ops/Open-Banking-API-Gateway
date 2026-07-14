@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Open Banking Accounts API
+  version: 1.0.0
+  description: API for retrieving customer account information.
+
+servers:
+  - url: https://api.openbank.com/v1
+
+paths:
+  /accounts:
+    get:
+      summary: Retrieve customer accounts
+      operationId: getAccounts
+      responses:
+        '200':
+          description: Account list retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+
+  /accounts/{accountId}:
+    get:
+      summary: Retrieve account details
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: string
+        accountType:
+          type: string
+        currency:
+          type: string
+        balance:
+          type: number
+          format: double
+
+    Accounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Account'
