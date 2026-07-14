@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: Consent Management API
+  version: 1.0.0
+  description: API for managing customer consent.
+
+servers:
+  - url: https://api.openbank.com/v1
+
+paths:
+  /consents:
+    post:
+      summary: Create consent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consent'
+      responses:
+        '201':
+          description: Consent created
+
+    get:
+      summary: List consents
+      responses:
+        '200':
+          description: Consent list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Consent'
+
+  /consents/{consentId}:
+    delete:
+      summary: Revoke consent
+      parameters:
+        - name: consentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Consent revoked
+
+components:
+  schemas:
+    Consent:
+      type: object
+      properties:
+        consentId:
+          type: string
+        customerId:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
