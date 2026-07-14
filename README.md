@@ -21,4 +21,4 @@ screenshots/
 
 ## Author
 
-Sara Subhan Kalagotla
+Sara Subhan 
